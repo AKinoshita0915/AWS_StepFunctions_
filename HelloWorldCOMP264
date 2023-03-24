@@ -1,0 +1,62 @@
+{
+  "Comment": "A description of my state machine",
+  "StartAt": "Pass",
+  "States": {
+    "Pass": {
+      "Type": "Pass",
+      "Next": "IsHelloWorldExample"
+    },
+    "IsHelloWorldExample": {
+      "Type": "Choice",
+      "Choices": [
+        {
+          "Variable": "$.IsHelloWorldExample",
+          "BooleanEquals": true,
+          "Next": "Yes"
+        },
+        {
+          "Variable": "$.IsHelloWorldExample",
+          "BooleanEquals": false,
+          "Next": "No"
+        }
+      ],
+      "Default": "Yes"
+    },
+    "Yes": {
+      "Type": "Pass",
+      "Next": "Wait 3 sec"
+    },
+    "Wait 3 sec": {
+      "Type": "Wait",
+      "Seconds": 3,
+      "Next": "Parallel"
+    },
+    "Parallel": {
+      "Type": "Parallel",
+      "End": true,
+      "Branches": [
+        {
+          "StartAt": "Hello",
+          "States": {
+            "Hello": {
+              "Type": "Pass",
+              "End": true
+            }
+          }
+        },
+        {
+          "StartAt": "World",
+          "States": {
+            "World": {
+              "Type": "Pass",
+              "End": true
+            }
+          }
+        }
+      ]
+    },
+    "No": {
+      "Type": "Fail"
+    }
+  }
+}
